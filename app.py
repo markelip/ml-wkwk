@@ -40,3 +40,20 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+from flask import Flask, send_file
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "<h1>Welcome to My Flask App!</h1><p><a href='/download'>Download user_data.csv</a></p>"
+
+@app.route("/download")
+def download_file():
+    try:
+        return send_file("user_data.csv", as_attachment=True)
+    except Exception as e:
+        return str(e), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
