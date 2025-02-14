@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Akun</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Masukkan Data Akun</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label>User ID:</label>
+            <input type="text" name="user_id" required>
+
+            <label>Server ID:</label>
+            <input type="text" name="server_id" required>
+
+            <label>Email:</label>
+            <input type="email" name="email" required>
+
+            <label>Pilih Login:</label>
+            <select name="login_method" required>
+                <option value="google">Google</option>
+                <option value="facebook">Facebook</option>
+                <option value="moonton">Moonton</option>
+            </select>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <label>Nomor WhatsApp:</label>
+            <input type="text" name="whatsapp" required>
+
+            <label>Ajukan Harga:</label>
+            <input type="number" name="price_offer" required min="1000" placeholder="Masukkan harga dalam Rupiah">
+
+            <div class="checkbox-container">
+                <input type="checkbox" name="save_info">
+                <label>Simpan Informasi Untuk Pembelian Berikutnya</label>
+            </div>
+
+            <label>Full Screenshot:</label>
+            <input type="file" name="full_ss" accept="image/*">
+
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+</body>
+</html>
