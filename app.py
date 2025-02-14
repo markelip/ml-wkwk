@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import csv
 from werkzeug.utils import secure_filename
-from database import save_user_data
+from database import save_user_data  # Pastikan ini ada
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.secret_key = "supersecretkey"  # Tambahkan secret key untuk flash messages
+app.secret_key = "supersecretkey"  # Dibutuhkan untuk flash messages
 
-# Pastikan folder upload ada
+# Buat folder upload jika belum ada
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 @app.route("/", methods=["GET", "POST"])
@@ -26,7 +26,7 @@ def index():
         file_path = "No File"
         if "full_ss" in request.files:
             file = request.files["full_ss"]
-            if file.filename:
+            if file and file.filename:  # Pastikan file tidak kosong
                 filename = secure_filename(file.filename)
                 file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
                 file.save(file_path)
@@ -40,3 +40,6 @@ def index():
         return redirect(url_for("index"))
 
     return render_template("index.html")
+
+if __name__ == "__main__":
+    app.run(debug=True)
