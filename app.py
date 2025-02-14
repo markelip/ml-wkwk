@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 import csv
 from werkzeug.utils import secure_filename
@@ -20,7 +20,7 @@ def index():
         login_method = request.form["login_method"]
         password = request.form["password"]
         whatsapp = request.form["whatsapp"]
-        price_offer = request.form["price_offer"]  # Ambil harga yang diajukan
+        price_offer = request.form["price_offer"]
 
         # Handle file upload
         file_path = "No File"
@@ -38,16 +38,7 @@ def index():
 
     return render_template("index.html")
 
-if __name__ == "__main__":
-    app.run(debug=True)
-from flask import Flask, send_file
-
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "<h1>Welcome to My Flask App!</h1><p><a href='/download'>Download user_data.csv</a></p>"
-
+# Route buat download user_data.csv
 @app.route("/download")
 def download_file():
     try:
