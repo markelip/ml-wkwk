@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 import csv
 from werkzeug.utils import secure_filename
@@ -6,6 +6,7 @@ from database import save_user_data
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.secret_key = "supersecretkey"  # Tambahkan secret key untuk flash messages
 
 # Pastikan folder upload ada
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -20,7 +21,7 @@ def index():
         login_method = request.form["login_method"]
         password = request.form["password"]
         whatsapp = request.form["whatsapp"]
-        price_offer = request.form["price_offer"]
+        price_offer = request.form["price_offer"]  # Ambil harga yang diajukan
 
         # Handle file upload
         file_path = "No File"
@@ -34,17 +35,9 @@ def index():
         # Simpan data ke CSV
         save_user_data(user_id, server_id, email, login_method, password, whatsapp, price_offer, file_path)
 
+        # Tampilkan notifikasi ke user
+        flash("Harap tunggu, akun sedang dicek admin!", "info")
+
         return redirect(url_for("index"))
 
     return render_template("index.html")
-
-# Route buat download user_data.csv
-@app.route("/download")
-def download_file():
-    try:
-        return send_file("user_data.csv", as_attachment=True)
-    except Exception as e:
-        return str(e), 500
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)

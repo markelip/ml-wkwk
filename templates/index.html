@@ -3,48 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Data Akun</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Flask App</title>
+    <style>
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        .alert-info {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Masukkan Data Akun</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <label>User ID:</label>
-            <input type="text" name="user_id" required>
 
-            <label>Server ID:</label>
-            <input type="text" name="server_id" required>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-            <label>Email:</label>
-            <input type="email" name="email" required>
+    <form method="POST" enctype="multipart/form-data">
+        <label>User ID:</label>
+        <input type="text" name="user_id" required>
+        
+        <label>Server ID:</label>
+        <input type="text" name="server_id" required>
 
-            <label>Pilih Login:</label>
-            <select name="login_method" required>
-                <option value="google">Google</option>
-                <option value="facebook">Facebook</option>
-                <option value="moonton">Moonton</option>
-            </select>
+        <label>Email:</label>
+        <input type="email" name="email" required>
 
-            <label>Password:</label>
-            <input type="password" name="password" required>
+        <label>Login Method:</label>
+        <input type="text" name="login_method" required>
 
-            <label>Nomor WhatsApp:</label>
-            <input type="text" name="whatsapp" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
 
-            <label>Ajukan Harga:</label>
-            <input type="number" name="price_offer" required min="1000" placeholder="Masukkan harga dalam Rupiah">
+        <label>WhatsApp:</label>
+        <input type="text" name="whatsapp" required>
 
-            <div class="checkbox-container">
-                <input type="checkbox" name="save_info">
-                <label>Simpan Informasi Untuk Pembelian Berikutnya</label>
-            </div>
+        <label>Harga yang Diajukan:</label>
+        <input type="number" name="price_offer" required>
 
-            <label>Full Screenshot:</label>
-            <input type="file" name="full_ss" accept="image/*">
+        <label>Upload Bukti:</label>
+        <input type="file" name="full_ss">
 
-            <button type="submit">Kirim</button>
-        </form>
-    </div>
+        <button type="submit">Kirim</button>
+    </form>
+
 </body>
 </html>
